@@ -22,9 +22,9 @@ async function sortHackerNewsArticles() {
     await page.waitForSelector("span.age");
 
     // Get the dates
-    const datesOnPage = await page.$$eval("span.age", spans => // Finds all span elements with class "age" with $$eval
+    const datesOnPage = await page.$$eval("span.age", spans => 
       spans.map(span => {
-        const title = span.getAttribute("title") || ""; // Get the title attribute which contains the date
+        const title = span.getAttribute("title") || ""; 
         const unixTime = title.split(" ")[1]; // Split the string by the date and unix time, keep the unix time
         return unixTime;
       })

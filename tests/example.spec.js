@@ -1,14 +1,12 @@
 const { test, expect } = require('@playwright/test');
 
 test('Articles are in descending chronological order', async ({ page }) => {
-    await page.goto("https://news.ycombinator.com/newest");
-
     const count = 100;
     const articleTimestamps = [];
+    await page.goto("https://news.ycombinator.com/newest");
 
     while (articleTimestamps.length < count) {
         await page.waitForSelector('span.age');
-
         const newTimestamps = await page.$$eval('span.age', spans =>
             spans.map(span => {
                 const title = span.getAttribute('title') || '';
@@ -19,7 +17,6 @@ test('Articles are in descending chronological order', async ({ page }) => {
 
         const needed = count - articleTimestamps.length;
         articleTimestamps.push(...newTimestamps.slice(0, needed));
-
         await page.getByRole('link', { name: 'More', exact: true }).click();
     }
 
